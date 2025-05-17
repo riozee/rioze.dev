@@ -2,9 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Header } from './_Header';
-import { ThemeProvider } from '@/app/__theme-provider';
-import { LanguageProvider } from '@/app/__language-provider';
-import { getLocale } from './__i18n-server';
+import { ThemeProvider } from '@/app/[locale]/__theme-provider';
+import { LanguageProvider } from '@/app/[locale]/__language-provider';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -16,7 +15,11 @@ const geistMono = Geist_Mono({
 	subsets: ['latin'],
 });
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: {
+	params: { locale: string };
+}): Promise<Metadata> {
 	return {
 		title: {
 			default: 'Rioze',
@@ -28,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 		creator: 'Rioze',
 		openGraph: {
 			type: 'article',
-			locale: await getLocale(),
+			locale: (await params).locale,
 			url: 'https://rioze.dev',
 			title: 'Rioze',
 			description: 'My personal website. A place to share my thoughts and projects.',
@@ -43,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;

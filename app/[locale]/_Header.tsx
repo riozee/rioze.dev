@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { SheetNavigation } from './_SheetNavigation';
 import { SheetApps } from './_SheetApps';
 import { SheetBlog } from './_SheetBlog';
-import { ThemeToggle } from '@/app/__theme-provider';
+import { ThemeToggle } from '@/app/[locale]/__theme-provider';
 import { Separator } from '@/components/ui/separator';
 import { useTranslation } from './__i18n-hook';
 import { LanguageSwitcher } from './__language-provider';
