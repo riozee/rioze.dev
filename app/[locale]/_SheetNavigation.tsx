@@ -11,36 +11,37 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
-import { useTranslation } from './__i18n-hook';
+import { useT } from './__i18n-hook';
+import { tr } from './tr';
 
 function SheetContents() {
-	const { t } = useTranslation();
+	const { t } = useT(tr, 'sheetNavigation');
 	const currentYear = new Date().getFullYear();
 
 	return (
 		<>
 			<SheetHeader>
-				<SheetTitle>{t('sheetNavigation.title')}</SheetTitle>
-				<SheetDescription>{t('sheetNavigation.description')}</SheetDescription>
+				<SheetTitle>{t('title')}</SheetTitle>
+				<SheetDescription>{t('description')}</SheetDescription>
 			</SheetHeader>
 
 			<div className="flex-grow overflow-hidden">
 				<ScrollArea className="h-full my-4 pl-4">
 					<div className="flex flex-col space-y-4 pr-4">
 						<div className="space-y-2">
-							<h3 className="text-sm font-medium">{t('sheetNavigation.main')}</h3>
+							<h3 className="text-sm font-medium">{t('main')}</h3>
 							<div className="flex flex-col space-y-2 text-sm">
 								<Link href="/" className="hover:underline">
-									{t('sheetNavigation.home')}
+									{t('home')}
 								</Link>
 								<Link href="/about" className="hover:underline">
-									{t('sheetNavigation.about')}
+									{t('about')}
 								</Link>
 								<Link href="/blog" className="hover:underline">
-									{t('sheetNavigation.blog')}
+									{t('blog')}
 								</Link>
 								<Link href="/projects" className="hover:underline">
-									{t('sheetNavigation.projects')}
+									{t('projects')}
 								</Link>
 							</div>
 						</div>
@@ -48,16 +49,16 @@ function SheetContents() {
 						<Separator />
 
 						<div className="space-y-2">
-							<h3 className="text-sm font-medium">{t('sheetNavigation.resources')}</h3>
+							<h3 className="text-sm font-medium">{t('resources')}</h3>
 							<div className="flex flex-col space-y-2 text-sm">
 								<Link href="/docs" className="hover:underline">
-									{t('sheetNavigation.documentation')}
+									{t('documentation')}
 								</Link>
 								<Link href="/guides" className="hover:underline">
-									{t('sheetNavigation.guides')}
+									{t('guides')}
 								</Link>
 								<Link href="/tutorials" className="hover:underline">
-									{t('sheetNavigation.tutorials')}
+									{t('tutorials')}
 								</Link>
 							</div>
 						</div>
@@ -65,16 +66,16 @@ function SheetContents() {
 						<Separator />
 
 						<div className="space-y-2">
-							<h3 className="text-sm font-medium">{t('sheetNavigation.legal')}</h3>
+							<h3 className="text-sm font-medium">{t('legal')}</h3>
 							<div className="flex flex-col space-y-2 text-sm">
 								<Link href="/terms" className="hover:underline">
-									{t('sheetNavigation.termsOfService')}
+									{t('termsOfService')}
 								</Link>
 								<Link href="/privacy" className="hover:underline">
-									{t('sheetNavigation.privacyPolicy')}
+									{t('privacyPolicy')}
 								</Link>
 								<Link href="/cookies" className="hover:underline">
-									{t('sheetNavigation.cookiePolicy')}
+									{t('cookiePolicy')}
 								</Link>
 							</div>
 						</div>
@@ -82,10 +83,10 @@ function SheetContents() {
 						<Separator />
 
 						<div className="space-y-2">
-							<h3 className="text-sm font-medium">{t('sheetNavigation.connect')}</h3>
+							<h3 className="text-sm font-medium">{t('connect')}</h3>
 							<div className="flex flex-col space-y-2 text-sm">
 								<Link href="/contact" className="hover:underline">
-									{t('sheetNavigation.contactUs')}
+									{t('contactUs')}
 								</Link>
 								<a
 									href="https://twitter.com/rioze"
@@ -93,7 +94,7 @@ function SheetContents() {
 									rel="noopener noreferrer"
 									className="hover:underline"
 								>
-									{t('sheetNavigation.twitter')}
+									{t('twitter')}
 								</a>
 								<a
 									href="https://github.com/rioze"
@@ -101,7 +102,7 @@ function SheetContents() {
 									rel="noopener noreferrer"
 									className="hover:underline"
 								>
-									{t('sheetNavigation.github')}
+									{t('github')}
 								</a>
 								<a
 									href="https://linkedin.com/in/rioze"
@@ -109,7 +110,7 @@ function SheetContents() {
 									rel="noopener noreferrer"
 									className="hover:underline"
 								>
-									{t('sheetNavigation.linkedin')}
+									{t('linkedin')}
 								</a>
 							</div>
 						</div>
@@ -118,7 +119,7 @@ function SheetContents() {
 			</div>
 			<SheetFooter className="mt-auto border-t pt-4">
 				<div className="text-sm text-muted-foreground">
-					{t('sheetNavigation.copyright').replace('{year}', currentYear.toString())}
+					{t('copyright').replace('{year}', currentYear.toString())}
 				</div>
 			</SheetFooter>
 		</>

@@ -26,6 +26,9 @@ export const tr = {
 			linkedin: 'LinkedIn',
 			copyright: '© {year} rioze.dev. All rights reserved.',
 		},
+		sheetApps: {
+			title: 'Apps',
+		},
 	},
 	id: {
 		header: {
@@ -54,6 +57,9 @@ export const tr = {
 			linkedin: 'LinkedIn',
 			copyright: '© {year} rioze.dev. Seluruh hak cipta.',
 		},
+		sheetApps: {
+			title: 'Aplikasi',
+		},
 	},
 	ja: {
 		header: {
@@ -81,6 +87,9 @@ export const tr = {
 			github: 'GitHub',
 			linkedin: 'LinkedIn',
 			copyright: '© {year} rioze.dev. 全著作権所有。',
+		},
+		sheetApps: {
+			title: 'アプリ',
 		},
 	},
 };

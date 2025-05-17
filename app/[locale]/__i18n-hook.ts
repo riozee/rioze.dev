@@ -1,53 +1,82 @@
 'use client';
 
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useParams } from 'next/navigation';
-import { tr } from './tr';
-import { setCookie } from 'cookies-next';
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE, LocaleType } from '../../languages';
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE, LocaleType } from '@/languages';
 
-export function useTranslation(initialLocale?: LocaleType) {
+type TR = {
+	[locale in LocaleType]: {
+		[section: string]: {
+			[key: string]: string | Record<string, string>;
+		};
+	};
+};
+
+/**
+ * Custom hook to retrieve translations based on the current locale and section.
+ *
+ * @param tr - Translation object containing translations for different locales and sections.
+ * @param section - The section of the translation object to use.
+ * @param overrideLocale - Optional locale to override the default locale.
+ * @return An object containing the translation function `t` and the current locale.
+ */
+export function useT(tr?: TR, section?: string, overrideLocale?: LocaleType) {
 	const params = useParams();
 
 	// Get locale from route param (which is handled by Next.js i18n with the [locale] segment)
 	const routeLocale = params?.locale as string;
 
-	// Use route locale if available, otherwise fall back to initial/default
-	const [locale, setLocale] = useState<LocaleType>(
+	// Use route locale if available, otherwise fall back to override locale or default
+	const locale = (overrideLocale ||
 		(routeLocale && SUPPORTED_LOCALES.includes(routeLocale)
 			? routeLocale
-			: initialLocale || DEFAULT_LOCALE) as LocaleType
-	);
-
-	// Sync the locale with cookie when it changes
-	useEffect(() => {
-		if (locale) {
-			setCookie('NEXT_LOCALE', locale, { maxAge: 60 * 60 * 24 * 365 }); // 1 year
-		}
-	}, [locale]);
+			: DEFAULT_LOCALE)) as LocaleType;
 
 	const t = useCallback(
 		(key: string) => {
-			// Split key by dots (e.g., 'header.siteName' => ['header', 'siteName'])
-			const keys = key.split('.');
-
-			// Navigate through the translation object based on the keys
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			let result: Record<string, any> | string = tr[locale];
-			for (const k of keys) {
-				if (result && typeof result === 'object' && k in result) {
-					result = result[k];
-				} else {
-					console.warn(`Translation key not found: ${key}`);
-					return key; // Return the key itself if translation not found
+			try {
+				// If no translation object is provided, return the key itself
+				if (!tr) {
+					console.warn('No translation object provided');
+					return key;
 				}
-			}
+				// If no section is provided, return the key itself
+				if (!section) {
+					console.warn('No section provided');
+					return key;
+				}
+				// Check if the translation object and pagename exist
+				if (!tr[locale] || !tr[locale][section]) {
+					console.warn(`Translation not found for locale "${locale}" and section "${section}"`);
+					return key;
+				}
 
-			// Ensure we return a string for React to render
-			return typeof result === 'string' ? result : JSON.stringify(result);
+				// Split key by dots (e.g., 'header.siteName' => ['header', 'siteName'])
+				const keys = key.split('.');
+
+				// Start with the pagename section
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				let result: Record<string, any> | string = tr[locale][section];
+
+				// Navigate through the keys
+				for (const k of keys) {
+					if (result && typeof result === 'object' && k in result) {
+						result = result[k];
+					} else {
+						console.warn(`Translation key not found: ${section}.${key} (locale: ${locale})`);
+						return key; // Return the key itself if translation not found
+					}
+				}
+
+				// Ensure we return a string for React to render
+				return typeof result === 'string' ? result : JSON.stringify(result);
+			} catch (error) {
+				console.error(`Error retrieving translation for ${section}.${key}:`, error);
+				return key;
+			}
 		},
-		[locale]
+		[locale, tr, section]
 	);
 
-	return { t, locale, setLocale };
+	return { t, locale };
 }

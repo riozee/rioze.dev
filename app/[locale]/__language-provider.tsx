@@ -5,11 +5,11 @@ import { useRouter, usePathname, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { setCookie } from 'cookies-next';
-import { useTranslation } from './__i18n-hook';
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE, LocaleType } from '../../languages';
+import { useT } from './__i18n-hook';
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE, LocaleType } from '@/languages';
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-	const { locale } = useTranslation();
+	const { locale } = useT();
 
 	// Set the HTML lang attribute whenever language changes
 	useEffect(() => {
