@@ -2,10 +2,10 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Box } from 'lucide-react';
 import Link from 'next/link';
-import { apps } from './apps/page';
 import { useT } from './__i18n-hook';
 import { tr } from './tr';
 import { tr as trApps } from '@/app/[locale]/apps/tr';
+import { appsList } from './apps/appsList';
 
 export function SheetApps() {
 	const { t } = useT(tr, 'sheetApps');
@@ -31,7 +31,7 @@ export function SheetApps() {
 				<div className="mt-0 p-6 overflow-hidden">
 					<ScrollArea className="h-full">
 						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-							{apps.map(app => (
+							{appsList.map(app => (
 								<Link
 									key={app.name}
 									href={app.href}
